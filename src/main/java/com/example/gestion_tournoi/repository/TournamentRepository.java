@@ -21,6 +21,6 @@ public class TournamentRepository extends Repository<Tournament>{
 
     @Override
     public List<Tournament> findAll() {
-        return _session.createQuery("from Tournament where id_tournament = :id", Tournament.class).list();
+        return _session.createQuery("from Tournament", Tournament.class).list();
     }
 }

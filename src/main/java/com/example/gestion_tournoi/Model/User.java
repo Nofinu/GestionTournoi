@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -17,9 +18,7 @@ public class User {
     protected String userName;
     private String game;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "player_Team", joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "id_team"))
+    @ManyToMany(mappedBy = "players",fetch = FetchType.EAGER)
     private List<Team> teams;
 
 
@@ -78,5 +77,18 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId() == user.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

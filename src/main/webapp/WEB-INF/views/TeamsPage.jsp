@@ -23,7 +23,10 @@
     </form>
     <c:if test="${teams != null}">
         <c:forEach items="${teams}" var="team">
-            <div>${team.getName()} <a href="?id=${team.getId_team()}">Join</a></div>
+            <div>${team.getName()}
+                <c:if test="${!team.getPlayers().contains(user)}">
+                    <a href="?id=${team.getId_team()}">Join</a></div>
+                </c:if>
         </c:forEach>
     </c:if>
 

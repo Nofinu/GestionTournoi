@@ -12,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public class TournamentService {
     private final SessionFactory _sessionFactory;
@@ -87,5 +88,19 @@ public class TournamentService {
             session.close();
         }
         return tournament;
+    }
+
+    public List<Tournament> findAllTournament(){
+        List<Tournament> tournaments =null;
+        session = _sessionFactory.openSession();
+        tournamentRepository = new TournamentRepository(session);
+        try{
+            tournaments = tournamentRepository.findAll();
+        }catch (Exception ignore){
+
+        }finally {
+            session.close();
+        }
+        return tournaments;
     }
 }

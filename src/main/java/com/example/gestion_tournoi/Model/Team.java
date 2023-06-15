@@ -11,7 +11,10 @@ public class Team {
 
     private String name;
 
-    @ManyToMany(mappedBy = "teams",fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "player_Team", joinColumns = @JoinColumn(name = "id_team"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
     private List<User> players;
 
     public Team(String name) {
@@ -52,4 +55,7 @@ public class Team {
         }
         return false;
     }
+
+
+
 }

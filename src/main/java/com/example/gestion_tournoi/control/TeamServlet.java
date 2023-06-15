@@ -1,8 +1,8 @@
 package com.example.gestion_tournoi.control;
 
 import com.example.gestion_tournoi.Model.Team;
+import com.example.gestion_tournoi.Model.User;
 import com.example.gestion_tournoi.service.TeamService;
-import com.example.gestion_tournoi.service.UserService;
 import com.example.gestion_tournoi.util.Definition;
 import com.example.gestion_tournoi.util.HibernateSession;
 import jakarta.servlet.ServletException;
@@ -27,11 +27,19 @@ public class TeamServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if(session.getAttribute("isLogged")!=null && (boolean) session.getAttribute("isLogged")){
+        if(session.getAttribute("isLogged")!=null && (boolean) session.getAttribute("isLogged")&& request.getParameter("id") == null){
             List<Team> teams = teamService.findAllTeam();
             request.setAttribute("teams",teams);
+            User user = (User) session.getAttribute("user") ;
+            request.setAttribute("user",user);
             request.getRequestDispatcher(Definition.PATH_VIEWS+"TeamsPage.jsp").forward(request,response);
-        }else{
+        }else if (request.getParameter("id")!= null){
+            int id = Integer.parseInt(request.getParameter("id"));
+            Team team = teamService.findByIdTeam(id);
+            User user = (User) session.getAttribute("user");
+            teamService.addUserToTeam(team,user);
+            response.sendRedirect("teams");
+        } else{
             response.sendRedirect(Definition.BASE_URL);
         }
     }

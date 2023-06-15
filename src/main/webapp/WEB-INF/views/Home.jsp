@@ -10,10 +10,14 @@
 </h1>
 <br/>
 
-<h1>islogged ${isLogged}</h1>
-<h1>isAdmin ${isAdmin}</h1>
 <c:if test="${isLogged}">
     <a href="connection?type=loOut">Log Out</a>
+    <h1>islogged ${isLogged}</h1>
+    <h1>isAdmin ${isAdmin}</h1>
+    <c:if test="${isAdmin}">
+        <a href="tournament">Tournament</a>
+    </c:if>
+
     <a href="teams">Teams</a>
 </c:if>
 <c:if test="${!isLogged}">
